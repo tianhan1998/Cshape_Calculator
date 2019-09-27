@@ -60,22 +60,27 @@
             this.文件ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.保存记录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.载入记录ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.alldisplay = new System.Windows.Forms.TextBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // display
             // 
             this.display.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.display.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.display.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.display.Font = new System.Drawing.Font("微软雅黑", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.display.HideSelection = false;
-            this.display.Location = new System.Drawing.Point(12, 31);
+            this.display.Location = new System.Drawing.Point(26, 65);
             this.display.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.display.Multiline = true;
             this.display.Name = "display";
             this.display.ReadOnly = true;
-            this.display.Size = new System.Drawing.Size(604, 85);
+            this.display.Size = new System.Drawing.Size(584, 51);
             this.display.TabIndex = 0;
             this.display.TabStop = false;
+            this.display.Text = "0";
             this.display.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.display.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Display_MouseDown);
             // 
@@ -92,6 +97,7 @@
             this.button1.TabStop = false;
             this.button1.Text = "1";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.Button1_Click);
             // 
             // button2
             // 
@@ -105,6 +111,7 @@
             this.button2.TabIndex = 2;
             this.button2.Text = "2";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.Button2_Click);
             // 
             // button3
             // 
@@ -118,6 +125,7 @@
             this.button3.TabIndex = 3;
             this.button3.Text = "3";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.Button3_Click);
             // 
             // button4
             // 
@@ -131,6 +139,7 @@
             this.button4.TabIndex = 6;
             this.button4.Text = "4";
             this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.Button4_Click);
             // 
             // button5
             // 
@@ -144,6 +153,7 @@
             this.button5.TabIndex = 5;
             this.button5.Text = "5";
             this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.Button5_Click);
             // 
             // button6
             // 
@@ -157,6 +167,7 @@
             this.button6.TabIndex = 4;
             this.button6.Text = "6";
             this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.Button6_Click);
             // 
             // button7
             // 
@@ -170,6 +181,7 @@
             this.button7.TabIndex = 9;
             this.button7.Text = "7";
             this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.Button7_Click);
             // 
             // button8
             // 
@@ -183,6 +195,7 @@
             this.button8.TabIndex = 8;
             this.button8.Text = "8";
             this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.Button8_Click);
             // 
             // button9
             // 
@@ -197,6 +210,7 @@
             this.button9.TabIndex = 7;
             this.button9.Text = "9";
             this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.Button9_Click);
             // 
             // point
             // 
@@ -210,6 +224,7 @@
             this.point.TabIndex = 12;
             this.point.Text = ".";
             this.point.UseVisualStyleBackColor = true;
+            this.point.Click += new System.EventHandler(this.Point_Click);
             // 
             // button0
             // 
@@ -223,6 +238,7 @@
             this.button0.TabIndex = 11;
             this.button0.Text = "0";
             this.button0.UseVisualStyleBackColor = true;
+            this.button0.Click += new System.EventHandler(this.Button0_Click);
             // 
             // equals
             // 
@@ -236,6 +252,7 @@
             this.equals.TabIndex = 10;
             this.equals.Text = "=";
             this.equals.UseVisualStyleBackColor = true;
+            this.equals.Click += new System.EventHandler(this.Equals_Click);
             // 
             // divide
             // 
@@ -263,6 +280,7 @@
             this.plus.TabIndex = 15;
             this.plus.Text = "+";
             this.plus.UseVisualStyleBackColor = true;
+            this.plus.Click += new System.EventHandler(this.Plus_Click);
             // 
             // minus
             // 
@@ -367,6 +385,7 @@
             this.clear.TabIndex = 22;
             this.clear.Text = "C";
             this.clear.UseVisualStyleBackColor = true;
+            this.clear.Click += new System.EventHandler(this.Clear_Click);
             // 
             // right
             // 
@@ -406,6 +425,7 @@
             this.negative.TabIndex = 25;
             this.negative.Text = "±";
             this.negative.UseVisualStyleBackColor = true;
+            this.negative.Click += new System.EventHandler(this.Negative_Click);
             // 
             // memoryStack
             // 
@@ -438,6 +458,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.SystemColors.ButtonFace;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.文件ToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -468,11 +489,37 @@
             this.载入记录ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.载入记录ToolStripMenuItem.Text = "载入记录";
             // 
+            // alldisplay
+            // 
+            this.alldisplay.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.alldisplay.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.alldisplay.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.alldisplay.HideSelection = false;
+            this.alldisplay.Location = new System.Drawing.Point(26, 43);
+            this.alldisplay.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
+            this.alldisplay.Multiline = true;
+            this.alldisplay.Name = "alldisplay";
+            this.alldisplay.ReadOnly = true;
+            this.alldisplay.Size = new System.Drawing.Size(584, 22);
+            this.alldisplay.TabIndex = 29;
+            this.alldisplay.TabStop = false;
+            this.alldisplay.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Location = new System.Drawing.Point(24, 28);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(590, 91);
+            this.groupBox1.TabIndex = 30;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.UseWaitCursor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(632, 694);
+            this.Controls.Add(this.alldisplay);
             this.Controls.Add(this.op);
             this.Controls.Add(this.memoryStack);
             this.Controls.Add(this.negative);
@@ -502,6 +549,7 @@
             this.Controls.Add(this.button1);
             this.Controls.Add(this.display);
             this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.groupBox1);
             this.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
@@ -549,6 +597,8 @@
         private System.Windows.Forms.ToolStripMenuItem 文件ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 保存记录ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 载入记录ToolStripMenuItem;
+        private System.Windows.Forms.TextBox alldisplay;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
 
