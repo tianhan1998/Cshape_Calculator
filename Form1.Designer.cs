@@ -372,6 +372,7 @@
             this.backspace.TabIndex = 21;
             this.backspace.Text = "←";
             this.backspace.UseVisualStyleBackColor = true;
+            this.backspace.Click += new System.EventHandler(this.Backspace_Click);
             // 
             // clear
             // 
@@ -399,6 +400,7 @@
             this.right.TabIndex = 24;
             this.right.Text = ")";
             this.right.UseVisualStyleBackColor = true;
+            this.right.Click += new System.EventHandler(this.Right_Click);
             // 
             // left
             // 
@@ -412,6 +414,7 @@
             this.left.TabIndex = 23;
             this.left.Text = "(";
             this.left.UseVisualStyleBackColor = true;
+            this.left.Click += new System.EventHandler(this.Left_Click);
             // 
             // negative
             // 
