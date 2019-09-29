@@ -17,6 +17,7 @@ namespace 计算器
     {
         private int leftb = 0;
         private int rightb = 0;
+        bool afterPartCalculate = false;//右括号闭合后单独完成计算
         private Stack<decimal> digit = new Stack<decimal>();
         private Stack<char> oper = new Stack<char>();
         [DllImport("user32", EntryPoint = "HideCaret")]
@@ -122,7 +123,7 @@ namespace 计算器
 
         private void Negative_Click(object sender, EventArgs e)
         {
-            if (display.Text.Length != 0)
+            if (display.Text.Length != 0&&display.Text!="0")
             {
                 if (display.Text[0] != '-')
                 {
@@ -152,25 +153,77 @@ namespace 计算器
             {
                 display.Text += "0";
             }
+        }
+        private void Multiply_Click(object sender, EventArgs e)
+        {
+            if (!afterPartCalculate)
+            {
+                digit.Push(decimal.Parse(display.Text));
+                alldisplay.Text += display.Text + "*";
+            }
+            else
+            {
+                digit.Push(decimal.Parse(display.Text));
+                alldisplay.Text += '*';
+                afterPartCalculate = false;
+            }
+            display.Text = "0";
+            if (oper.Count != 0 && Power.GetPower(oper.Peek()) > Power.GetPower('*'))
+            {
+                display.Text = CalculateOne('*').ToString();
+            }
+            else
+            oper.Push('*');
 
         }
+        private void Minus_Click(object sender, EventArgs e)
+        {
+            if (!afterPartCalculate)
+            {
+                digit.Push(decimal.Parse(display.Text));
+                alldisplay.Text += display.Text + "-";
+            }
+            else
+            {
+                digit.Push(decimal.Parse(display.Text));
+                alldisplay.Text += '-';
+                afterPartCalculate = false;
+            }
+            display.Text = "0";
+            if (oper.Count != 0 && Power.GetPower(oper.Peek()) > Power.GetPower('-'))
+            {
+                display.Text = CalculateOne('-').ToString();
+            }
+            else
+            oper.Push('-');
 
+        }
         private void Plus_Click(object sender, EventArgs e)
         {
-            digit.Push(decimal.Parse(display.Text));
-            oper.Push('+');
-            alldisplay.Text += display.Text + "+";
+            if (!afterPartCalculate)
+            {
+                digit.Push(decimal.Parse(display.Text));
+                alldisplay.Text += display.Text + "+";
+            }
+            else
+            {
+                digit.Push(decimal.Parse(display.Text));
+                alldisplay.Text += '+';
+                afterPartCalculate = false;
+            }
             display.Text = "0";
-            if (Power.GetPower(oper.Peek()) > Power.GetPower('+'))
+            if (oper.Count != 0 && Power.GetPower(oper.Peek()) > Power.GetPower('+'))
             {
                 display.Text = CalculateOne('+').ToString();
             }
+            else
+            oper.Push('+');
         }
         private decimal CalculateOne(char now)//计算一次符号（符号栈遇到比自己权值更大的）
         {
-            decimal left = digit.Pop();
-            char op = oper.Pop();
             decimal right = digit.Pop();
+            char op = oper.Pop();
+            decimal left = digit.Pop();
             decimal answer = 0;
             switch (op)
             {
@@ -184,7 +237,7 @@ namespace 计算器
             oper.Push(now);
             return answer;
         }
-        private decimal CalculatePart()
+        private decimal CalculatePart()//算一个闭合括号
         {
             while (oper.Peek() != '(')
             {
@@ -195,23 +248,23 @@ namespace 计算器
             rightb--;
             return digit.Pop();
         }
-        private void CalStack()
+        private void CalStack()//栈计算操作
         {
-                decimal left = digit.Pop();
-                char op = oper.Pop();
-                decimal right = digit.Pop();
-                decimal answer = 0;
-                switch (op)
-                {
-                    case '+': answer = left + right; break;
-                    case '-': answer = left - right; break;
-                    case '*': answer = left * right; break;
-                    case '/': answer = left / right; break;
-                    case '%': answer = left % right; break;
-                }
-                digit.Push(answer);
+            decimal right = digit.Pop();
+            char op = oper.Pop();
+            decimal left = digit.Pop();
+            decimal answer = 0;
+            switch (op)
+            {
+                case '+': answer = left + right; break;
+                case '-': answer = left - right; break;
+                case '*': answer = left * right; break;
+                case '/': answer = left / right; break;
+                case '%': answer = left % right; break;
+            }
+            digit.Push(answer);
         }
-        private decimal Calculate()
+        private decimal Calculate()//'='算到头
         {
             while (digit.Count() >= 2)
             {
@@ -222,18 +275,27 @@ namespace 计算器
 
         private void Equals_Click(object sender, EventArgs e)
         {
-            digit.Push(decimal.Parse(display.Text));
-            alldisplay.Text += display.Text + "=";
-            display.Text=Calculate().ToString();
-            memoryStack.Text += alldisplay.Text + "\r\n" + display.Text+"\r\n\r\n";
+            if (!afterPartCalculate)
+            {
+                digit.Push(decimal.Parse(display.Text));
+                alldisplay.Text += display.Text + "=";
+            }
+            else
+            {
+                digit.Push(decimal.Parse(display.Text));
+                alldisplay.Text += "=";
+                afterPartCalculate = false;
+            }
+            display.Text = Calculate().ToString();
+            memoryStack.Text += alldisplay.Text + "\r\n" + display.Text + "\r\n\r\n";
             clear.PerformClick();
         }
 
-        private void Backspce_Click(object sender, EventArgs e)
+        private void Backspace_Click(object sender, EventArgs e)
         {
             if (display.TextLength > 1)
             {
-                display.Text=display.Text.Substring(0, display.TextLength - 1);
+                display.Text = display.Text.Substring(0, display.TextLength - 1);
             }
             else
             {
@@ -243,12 +305,13 @@ namespace 计算器
 
         private void Right_Click(object sender, EventArgs e)
         {
-            if(rightb<leftb)
+            if (rightb < leftb)
             {
                 rightb++;
-                alldisplay.Text += display.Text+")";
+                alldisplay.Text += display.Text + ")";
                 digit.Push(decimal.Parse(display.Text));
-                display.Text=CalculatePart().ToString();
+                display.Text = CalculatePart().ToString();
+                afterPartCalculate = true;
             }
         }
 
@@ -258,5 +321,7 @@ namespace 计算器
             alldisplay.Text += "(";
             oper.Push('(');
         }
+
+
     }
 }

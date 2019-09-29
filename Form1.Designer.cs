@@ -294,6 +294,7 @@
             this.minus.TabIndex = 14;
             this.minus.Text = "-";
             this.minus.UseVisualStyleBackColor = true;
+            this.minus.Click += new System.EventHandler(this.Minus_Click);
             // 
             // multiply
             // 
@@ -307,6 +308,7 @@
             this.multiply.TabIndex = 13;
             this.multiply.Text = "*";
             this.multiply.UseVisualStyleBackColor = true;
+            this.multiply.Click += new System.EventHandler(this.Multiply_Click);
             // 
             // pow3
             // 
