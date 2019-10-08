@@ -82,6 +82,7 @@
             this.display.TabStop = false;
             this.display.Text = "0";
             this.display.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.display.TextChanged += new System.EventHandler(this.Display_TextChanged);
             this.display.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Display_MouseDown);
             // 
             // button1
@@ -322,6 +323,7 @@
             this.pow3.TabIndex = 20;
             this.pow3.Text = "x3";
             this.pow3.UseVisualStyleBackColor = true;
+            this.pow3.Click += new System.EventHandler(this.Pow3_Click);
             // 
             // mod
             // 
@@ -335,6 +337,7 @@
             this.mod.TabIndex = 19;
             this.mod.Text = "%";
             this.mod.UseVisualStyleBackColor = true;
+            this.mod.Click += new System.EventHandler(this.Mod_Click);
             // 
             // sqrt
             // 
@@ -348,6 +351,7 @@
             this.sqrt.TabIndex = 18;
             this.sqrt.Text = "√";
             this.sqrt.UseVisualStyleBackColor = true;
+            this.sqrt.Click += new System.EventHandler(this.Sqrt_Click);
             // 
             // pow2
             // 
@@ -361,6 +365,7 @@
             this.pow2.TabIndex = 17;
             this.pow2.Text = "x2";
             this.pow2.UseVisualStyleBackColor = true;
+            this.pow2.Click += new System.EventHandler(this.Pow2_Click);
             // 
             // backspace
             // 
@@ -487,12 +492,14 @@
             this.保存记录ToolStripMenuItem.Name = "保存记录ToolStripMenuItem";
             this.保存记录ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.保存记录ToolStripMenuItem.Text = "保存记录";
+            this.保存记录ToolStripMenuItem.Click += new System.EventHandler(this.保存记录ToolStripMenuItem_Click);
             // 
             // 载入记录ToolStripMenuItem
             // 
             this.载入记录ToolStripMenuItem.Name = "载入记录ToolStripMenuItem";
             this.载入记录ToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.载入记录ToolStripMenuItem.Text = "载入记录";
+            this.载入记录ToolStripMenuItem.Click += new System.EventHandler(this.载入记录ToolStripMenuItem_Click);
             // 
             // alldisplay
             // 
