@@ -15,8 +15,9 @@ namespace 计算器
                 case '+':return 1;
                 case '-':return 1;
                 case '*':return 2;
-                case '/':return 2;
+                case '÷':return 2;
                 case '%':return 2;
+                case '(':return 3;
             }
             return -1;
         }

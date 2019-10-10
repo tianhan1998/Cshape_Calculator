@@ -53,7 +53,6 @@
             this.clear = new System.Windows.Forms.Button();
             this.right = new System.Windows.Forms.Button();
             this.left = new System.Windows.Forms.Button();
-            this.negative = new System.Windows.Forms.Button();
             this.memoryStack = new System.Windows.Forms.TextBox();
             this.op = new System.Windows.Forms.TextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -218,7 +217,7 @@
             this.point.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.point.AutoSize = true;
             this.point.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.point.Location = new System.Drawing.Point(302, 592);
+            this.point.Location = new System.Drawing.Point(266, 592);
             this.point.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.point.Name = "point";
             this.point.Size = new System.Drawing.Size(71, 76);
@@ -232,7 +231,7 @@
             this.button0.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.button0.AutoSize = true;
             this.button0.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.button0.Location = new System.Drawing.Point(213, 592);
+            this.button0.Location = new System.Drawing.Point(170, 592);
             this.button0.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
             this.button0.Name = "button0";
             this.button0.Size = new System.Drawing.Size(71, 76);
@@ -423,20 +422,6 @@
             this.left.UseVisualStyleBackColor = true;
             this.left.Click += new System.EventHandler(this.Left_Click);
             // 
-            // negative
-            // 
-            this.negative.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.negative.AutoSize = true;
-            this.negative.Font = new System.Drawing.Font("微软雅黑", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.negative.Location = new System.Drawing.Point(123, 592);
-            this.negative.Margin = new System.Windows.Forms.Padding(3, 4, 3, 4);
-            this.negative.Name = "negative";
-            this.negative.Size = new System.Drawing.Size(71, 76);
-            this.negative.TabIndex = 25;
-            this.negative.Text = "±";
-            this.negative.UseVisualStyleBackColor = true;
-            this.negative.Click += new System.EventHandler(this.Negative_Click);
-            // 
             // memoryStack
             // 
             this.memoryStack.Anchor = System.Windows.Forms.AnchorStyles.None;
@@ -534,7 +519,6 @@
             this.Controls.Add(this.alldisplay);
             this.Controls.Add(this.op);
             this.Controls.Add(this.memoryStack);
-            this.Controls.Add(this.negative);
             this.Controls.Add(this.right);
             this.Controls.Add(this.left);
             this.Controls.Add(this.clear);
@@ -602,7 +586,6 @@
         private System.Windows.Forms.Button clear;
         private System.Windows.Forms.Button right;
         private System.Windows.Forms.Button left;
-        private System.Windows.Forms.Button negative;
         private System.Windows.Forms.TextBox memoryStack;
         private System.Windows.Forms.TextBox op;
         private System.Windows.Forms.MenuStrip menuStrip1;

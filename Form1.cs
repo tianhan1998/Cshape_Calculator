@@ -16,12 +16,65 @@ namespace 计算器
     {
         private int leftb = 0;
         private int rightb = 0;
-        bool afterPartCalculate = false;//右括号闭合后单独完成计算
         bool divideZero = false;
         private Stack<decimal> digit = new Stack<decimal>();
         private Stack<char> oper = new Stack<char>();
+        private string back = "";
+        private string mid = "";
         [DllImport("user32", EntryPoint = "HideCaret")]
         private static extern bool HideCaret(IntPtr hWnd);
+        public void MidToBack()
+        {
+            mid = alldisplay.Text;
+            for(int i = 0; i < mid.Length; i++)
+            {
+                if (char.IsDigit(mid[i]))
+                {
+                    string digit = "" + mid[i];
+                    int j = i;
+                    while (j<mid.Length-1&&(char.IsDigit(mid[++j])||mid[j]=='.'))
+                        digit += mid[j];
+                    back += digit+' ';
+                    i = j-1;
+                    if (j == mid.Length - 1)
+                        break;
+                }
+                else
+                {
+                    if (oper.Count == 0 || mid[i]=='(' ||Power.GetPower(oper.Peek()) < Power.GetPower(mid[i]))
+                    {
+                        oper.Push(mid[i]);
+                    }
+                    else if (mid[i] == ')')
+                    {
+                        while (oper.Peek() != '(')
+                        {
+                            back += oper.Pop();
+                        }
+                        oper.Pop();
+                    }
+                    else if(Power.GetPower(oper.Peek()) >= Power.GetPower(mid[i])&&oper.Peek()!='(')
+                    {
+                        while (oper.Count!=0&&(Power.GetPower(oper.Peek()) >= Power.GetPower(mid[i]))&&oper.Peek()!='(')
+                        {
+                            back += oper.Pop();
+                        }
+                        oper.Push(mid[i]);
+                    }
+                    else
+                    {
+                        oper.Push(mid[i]);
+                    }
+                }
+            }
+            while (oper.Count != 0)
+            {
+                if (oper.Peek() != '(')
+                    back += oper.Pop();
+                else
+                    oper.Pop();
+            }
+        }
         public Form1()
         {
             InitializeComponent();
@@ -57,11 +110,12 @@ namespace 计算器
         {
             digit.Clear();
             oper.Clear();
+            back = "";
+            mid = "";
             display.Text = "0";
             alldisplay.Clear();
             leftb = 0;
             rightb = 0;
-            afterPartCalculate = false;
             divideZero = false;
         }
 
@@ -156,214 +210,71 @@ namespace 计算器
         }
         private void Multiply_Click(object sender, EventArgs e)
         {
-            if (!afterPartCalculate)
-            {
-                digit.Push(decimal.Parse(display.Text));
-                alldisplay.Text += display.Text + "*";
-            }
-            else
-            {
-                //digit.Push(decimal.Parse(display.Text));
-                alldisplay.Text += '*';
-                afterPartCalculate = false;
-            }
+            alldisplay.Text += display.Text + "*";
             display.Text = "0";
-            if (oper.Count != 0 && Power.GetPower(oper.Peek()) > Power.GetPower('*'))
-            {
-                string answer= CalculateOne('*').ToString();
-                if(divideZero)
-                {
-                    clear.PerformClick();
-                    return;
-                }
-                display.Text = "0";
-            }
-            else
-            oper.Push('*');
-
         }
         private void Divide_Click(object sender, EventArgs e)
         {
-            if (!afterPartCalculate)
-            {
-                digit.Push(decimal.Parse(display.Text));
-                alldisplay.Text += display.Text + "÷";
-            }
-            else
-            {
-                //digit.Push(decimal.Parse(display.Text));
-                alldisplay.Text += '÷';
-                afterPartCalculate = false;
-            }
+            alldisplay.Text += display.Text + "÷";
             display.Text = "0";
-            if (oper.Count != 0 && Power.GetPower(oper.Peek()) > Power.GetPower('/'))
-            {
-                string answer= CalculateOne('/').ToString();
-                if(divideZero)
-                {
-                    clear.PerformClick();
-                    return;
-                }
-                display.Text = "0";
-            }
-            else
-            oper.Push('/');
         }
         private void Minus_Click(object sender, EventArgs e)
         {
-            if (!afterPartCalculate)
-            {
-                digit.Push(decimal.Parse(display.Text));
-                alldisplay.Text += display.Text + "-";
-            }
-            else
-            {
-                //digit.Push(decimal.Parse(display.Text));
-                alldisplay.Text += '-';
-                afterPartCalculate = false;
-            }
+            alldisplay.Text += display.Text + "-";
             display.Text = "0";
-            if (oper.Count != 0 && Power.GetPower(oper.Peek()) > Power.GetPower('-'))
-            {
-                string answer= CalculateOne('-').ToString();
-                if (divideZero)
-                {
-                    clear.PerformClick();
-                    return;
-                }
-                display.Text = "0";
-            }
-            else
-            oper.Push('-');
-
         }
         private void Mod_Click(object sender, EventArgs e)
         {
-            if (!afterPartCalculate)
-            {
-                digit.Push(decimal.Parse(display.Text));
-                alldisplay.Text += display.Text + "%";
-            }
-            else
-            {
-                //digit.Push(decimal.Parse(display.Text));
-                alldisplay.Text += '%';
-                afterPartCalculate = false;
-            }
+            alldisplay.Text += display.Text + "%";
             display.Text = "0";
-            if (oper.Count != 0 && Power.GetPower(oper.Peek()) > Power.GetPower('%'))
-            {
-                string answer= CalculateOne('%').ToString();
-                if (divideZero)
-                {
-                    clear.PerformClick();
-                    return;
-                }
-                display.Text = "0";
-            }
-            else
-            oper.Push('%');
-
         }
         private void Plus_Click(object sender, EventArgs e)
         {
-            if (!afterPartCalculate)
-            {
-                digit.Push(decimal.Parse(display.Text));
-                alldisplay.Text += display.Text + "+";
-            }
-            else
-            {
-               // digit.Push(decimal.Parse(display.Text));
-                alldisplay.Text += '+';
-                afterPartCalculate = false;
-            }
+            alldisplay.Text += display.Text + "+";
             display.Text = "0";
-            if (oper.Count != 0 && Power.GetPower(oper.Peek()) > Power.GetPower('+'))
-            {
-                string answer= CalculateOne('+').ToString();
-                if (divideZero)
-                {
-                    clear.PerformClick();
-                    return;
-                }
-                display.Text = "0";
-            }
-            else
-            oper.Push('+');
-        }
-        private decimal CalculateOne(char now)//计算一次符号（符号栈遇到比自己权值更大的）
-        {
-            decimal right = digit.Pop();
-            char op = oper.Pop();
-            decimal left = digit.Pop();
-            decimal answer = 0;
-            try
-            {
-                switch (op)
-                {
-                    case '+': answer = left + right; break;
-                    case '-': answer = left - right; break;
-                    case '*': answer = left * right; break;
-                    case '/': answer = left / right; break;
-                    case '%': answer = left % right; break;
-                }
-            }catch(DivideByZeroException e)
-            {
-                MessageBox.Show("尝试除以零", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                divideZero = true;
-                return -1;
-            }
-            digit.Push(answer);
-            oper.Push(now);
-            return answer;
-        }
-        private decimal CalculatePart()//算一个闭合括号
-        {
-            while (oper.Peek() != '(')
-            {
-                CalStack();
-                if (divideZero)
-                    return -1;
-            }
-            oper.Pop();
-            leftb--;
-            rightb--;
-            return digit.Peek();
         }
         private void CalStack()//栈计算操作
         {
-            decimal right = digit.Pop();
-            char op = oper.Pop();
-            decimal left = digit.Pop();
-            decimal answer = 0;
-            try
+            for (int i = 0; i < back.Length; i++)
             {
-                switch (op)
+                if (char.IsDigit(back[i]))
                 {
-                    case '+': answer = left + right; break;
-                    case '-': answer = left - right; break;
-                    case '*': answer = left * right; break;
-                    case '/': answer = left / right; break;
-                    case '%': answer = left % right; break;
+                    string digits = "" + back[i];
+                    int j = i;
+                    while (j+1 < back.Length && (char.IsDigit(back[++j])||back[j]=='.'))
+                        digits += back[j];
+                    i = j;
+                    digit.Push(decimal.Parse(digits));
+                    if (i == back.Length - 1)
+                        break;
                 }
-            }catch(DivideByZeroException e)
-            {
-                MessageBox.Show("尝试除以零", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                divideZero = true;
-                return;
+                else
+                {
+                    decimal right = digit.Pop();
+                    decimal left = digit.Pop();
+                    char opers = back[i];
+                    decimal answer=-1;
+                    try
+                    {
+                        switch (opers)
+                        {
+                            case '+': answer = left + right; break;
+                            case '-': answer = left - right; break;
+                            case '*': answer = left * right; break;
+                            case '÷': answer = left / right; break;
+                            case '%': answer = left % right; break;
+                        }
+                    }
+                    catch (DivideByZeroException e)
+                    {
+                        MessageBox.Show("尝试除以零", "错误", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        divideZero = true;
+                        return;
+                    }
+                    digit.Push(answer);
+                }
             }
-            digit.Push(answer);
-        }
-        private decimal Calculate()//'='算到头
-        {
-            while (digit.Count() >= 2)
-            {
-                CalStack();
-                if (divideZero)
-                    return -1;
-            }
-            return digit.Pop();
+            display.Text = digit.Pop().ToString();
         }
 
         private void PartMatch()
@@ -374,27 +285,16 @@ namespace 计算器
         }
         private void Equals_Click(object sender, EventArgs e)
         {
-            if (!afterPartCalculate)
-            {
-                digit.Push(decimal.Parse(display.Text));
-                alldisplay.Text += display.Text;
-                PartMatch();
-                alldisplay.Text += '=';
-            }
-            else
-            {
-                //digit.Push(decimal.Parse(display.Text));
-                PartMatch();
-                alldisplay.Text += "=";
-                afterPartCalculate = false;
-            }
-            string answers = Calculate().ToString();
+            alldisplay.Text += display.Text;
+            PartMatch();
+            MidToBack();
+            CalStack();
+            alldisplay.Text += '=';
             if (divideZero)
             {
                 clear.PerformClick();
                 return;
             }
-            display.Text = answers;
             memoryStack.Text += alldisplay.Text + "\r\n" + display.Text + "\r\n\r\n";
             clear.PerformClick();
         }
@@ -417,14 +317,12 @@ namespace 计算器
             {
                 rightb++;
                 alldisplay.Text += display.Text + ")";
-                digit.Push(decimal.Parse(display.Text));
-                string answer=CalculatePart().ToString();
+                display.Text = "";
                 if (divideZero)
                 {
                     clear.PerformClick();
                     return;
                 }
-                afterPartCalculate = true;
             }
         }
 
@@ -433,7 +331,6 @@ namespace 计算器
             leftb++;
             alldisplay.Text += "(";
             display.Text = "0";
-            oper.Push('(');
         }
 
         private void Pow3_Click(object sender, EventArgs e)
@@ -451,6 +348,17 @@ namespace 计算器
             display.Text = Math.Sqrt((double)decimal.Parse(display.Text)).ToString();
 
         }
+        private decimal Calculate()//'='算到头
+        {
+            while (digit.Count() >= 2)
+            {
+                CalStack();
+                if (divideZero)
+                    return -1;
+            }
+            return digit.Pop();
+        }
+
 
         private void 保存记录ToolStripMenuItem_Click(object sender, EventArgs e)
         {
